@@ -13,7 +13,9 @@ namespace ThirdPartySimulator2._0.Models
 
         public string number { get; set; }
 
-        public string expiration_month { get; set; }
+        public string holder { get; set; }//Added account holder.
+
+        public string expiration_month { get; set; }//Dont think there is any Experation details in a account number
 
         public string expiration_year { get; set; }
 
