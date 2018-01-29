@@ -9,8 +9,11 @@ using ThirdPartySimulator2._0.Models;
 
 namespace ThirdPartySimulator2._0.Controllers
 {
+
     public class PayTracePaymentController : ApiController
     {
+        private const double VALUE_LIMIT = 500000.00;
+
         // GET: api/PayTracePayment
         public IEnumerable<string> Get()
         {
@@ -41,7 +44,6 @@ namespace ThirdPartySimulator2._0.Controllers
             suceessMsg.avs_response = "Full Exact Match";
             suceessMsg.csc_response = "Match";
             suceessMsg.external_transaction_id = "";
-            if(request != null) { suceessMsg.masked_card_number = "xxxxxxxxxxxx" + request.number.Substring(request.number.Length - 4); }
 
             failMsg.transaction_id = tranID;
             failMsg.success = false;
@@ -52,8 +54,6 @@ namespace ThirdPartySimulator2._0.Controllers
             failMsg.avs_response = "Full Exact Match";
             failMsg.csc_response = "Match";
             failMsg.external_transaction_id = "";
-            if (request != null) { failMsg.masked_card_number = "xxxxxxxxxxxx" + request.number.Substring(request.number.Length - 4); }
-
 
             bool delayResponse = (rnd.Next(2) == 1) ? true : false;
 
@@ -67,38 +67,46 @@ namespace ThirdPartySimulator2._0.Controllers
 
             if (request != null)
             {
-                Match match = Regex.Match(request.number, "^[0-9]{16}$");
+                #region Validate account numbers 
+                Match match = Regex.Match(request.beneficiaryAcc, "^[0-9]{10}$");
 
                 if (!match.Success)
                 {
                     successful = false;
-
+                    failMsg.status_message = "Invalid beneficiary account number";
                 }
 
-                match = Regex.Match(request.expiration_month, "^[0-9]{2}$");
+                match = Regex.Match(request.beneficiarySortCode, "^[0-9]{6}$");
 
                 if (!match.Success)
                 {
                     successful = false;
-
+                    failMsg.status_message = "Invalid beneficiary sort code";
                 }
 
-                match = Regex.Match(request.expiration_year, "^[0-9]{4}$");
+                match = Regex.Match(request.remitterAcc, "^[0-9]{10}$");
 
                 if (!match.Success)
                 {
                     successful = false;
-
+                    failMsg.status_message = "Invalid remitter account number";
                 }
 
-                string expiryDate = "01/" + request.expiration_month + "/" + request.expiration_year;
-                DateTime cardExpiryDate = Convert.ToDateTime(expiryDate);
+                match = Regex.Match(request.remitterSortCode, "^[0-9]{6}$");
 
-                if (cardExpiryDate < DateTime.Now)
+                if (!match.Success)
                 {
                     successful = false;
-
+                    failMsg.status_message = "Invalid remitter sort code";
                 }
+
+                
+                if (request.amount > VALUE_LIMIT)
+                {
+                    successful = false;
+                    failMsg.status_message = "Amount exceeds the value limits";
+                }
+                #endregion Validate account numbers 
 
                 return (successful) ? suceessMsg : failMsg;
             }else

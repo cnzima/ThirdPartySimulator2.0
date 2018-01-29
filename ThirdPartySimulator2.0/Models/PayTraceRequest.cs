@@ -9,9 +9,19 @@ namespace ThirdPartySimulator2._0.Models
     {
         public double amount { get; set; }
 
-        public string number { get; set; }
+        public string remitterAcc { get; set; }
 
-        public string holder { get; set; }//Added account holder.
+        public string remitterSortCode { get; set; }
+
+        public string beneficiaryAcc { get; set; }
+
+        public string beneficiarySortCode { get; set; }
+
+        public string beneficiaryName { get; set; }
+
+        public string remitterName { get; set; }//Added account holder.
+
+        public string narration { get; set; }
 
     }
 }
