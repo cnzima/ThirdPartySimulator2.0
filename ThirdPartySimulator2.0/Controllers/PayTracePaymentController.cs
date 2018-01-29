@@ -41,8 +41,6 @@ namespace ThirdPartySimulator2._0.Controllers
             suceessMsg.response_code = 101;
             suceessMsg.approval_code = "TAS677";
             suceessMsg.approval_message = "EXACT MATCH - Approved and completed";
-            suceessMsg.avs_response = "Full Exact Match";
-            suceessMsg.csc_response = "Match";
             suceessMsg.external_transaction_id = "";
 
             failMsg.transaction_id = tranID;
@@ -51,8 +49,6 @@ namespace ThirdPartySimulator2._0.Controllers
             failMsg.response_code = 102;
             failMsg.approval_code = "";
             failMsg.approval_message = "DECLINE - Do not honor";
-            failMsg.avs_response = "Full Exact Match";
-            failMsg.csc_response = "Match";
             failMsg.external_transaction_id = "";
 
             bool delayResponse = (rnd.Next(2) == 1) ? true : false;
