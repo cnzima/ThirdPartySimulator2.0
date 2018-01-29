@@ -5,11 +5,11 @@ using System.Web;
 
 namespace ThirdPartySimulator2._0.Models
 {
-    public class PayTraceRequest
+    public class PayTraceRequest//eft request
     {
         public double amount { get; set; }
 
-        public string currency { get; set; }
+        public string currency { get; set; }//
 
         public string number { get; set; }
 
@@ -19,6 +19,6 @@ namespace ThirdPartySimulator2._0.Models
 
         public string expiration_year { get; set; }
 
-        public string csc { get; set; }
+        public string csc { get; set; }//
     }
 }
